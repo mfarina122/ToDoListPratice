@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import {
+  View,
+  Text,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import { styles } from "./styles";
+import { useState, useEffect } from "react";
+import * as SQLite from "expo-sqlite";
+import FontAwesome from "@expo/vector-icons/FontAwesome6";
+import ListaScreen from "./lista";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import TemplateList from "./TemplateList";
+import TemplateItems from "./TemplateItems";
 export default function App() {
+
+  const Drawer = createDrawerNavigator();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Lista della spesa" component={ListaScreen} />
+        <Drawer.Screen name="Lista dei template" component={TemplateList} ></Drawer.Screen>
+        <Drawer.Screen name="TemplateItems" unmountOnBlur={true} component={TemplateItems} options={{
+                  drawerItemStyle: { display: 'none' }
+        }}></Drawer.Screen>
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
