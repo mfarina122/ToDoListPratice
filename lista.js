@@ -32,6 +32,14 @@ export default function ListaScreen() {
     });
     }
 
+    const swapElements = (arr,i1,i2) => {
+        let temp = arr[i1];
+      
+        arr[i1] = arr[i2];
+      
+        arr[i2] = temp;
+    }
+
     const createTwoButtonAlert = () =>
         Alert.alert('Attenzione', 'Attenzione, questa azione è irreversibile. Vuoi continuare?', [
           {
@@ -197,7 +205,7 @@ export default function ListaScreen() {
             value={note}
             placeholder="Nuovo oggetto da comprare..."
             style={{
-              width: 320,
+              width: "80%",
               height: 50,
               borderWidth: 2,
               borderColor: "gray",
@@ -247,7 +255,7 @@ export default function ListaScreen() {
           )}
         </View>
         <ScrollView style={{ margin: 10,height:"75%" }}>
-          {noteArr.map((item) => {
+          {noteArr.map((item,index) => {
             return (
               <View
                 key={item.id}
@@ -255,23 +263,42 @@ export default function ListaScreen() {
                   fontSize: 20,
                   margin: 5,
                   display: "flex",
+                  height: 50,
                   flexDirection: "row",
                   justifyContent: "space-between",
                 }}
               >
-                <Text>{item.note}</Text>
-                <View style={{ display: "flex", flexDirection: "row" }}>
+                <Text style={{fontSize:20}}>{item.note}</Text>
+                <View style={{ display: "flex", flexDirection: "row",marginTop:5 }}>
+                    <TouchableOpacity style={{marginLeft:10}} onPress={() => {
+                      let arr = [...noteArr];
+                      if(index > 0){
+                        swapElements(arr,index,index-1);
+                        setNoteArr(arr);
+                      }
+                    }}>
+                    <FontAwesome name="arrow-up" size={25} color="blue" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginLeft:10}} onPress={() => {
+                      let arr = [...noteArr];
+                      if(index < arr.length-1){
+                        swapElements(arr,index,index+1);
+                        setNoteArr(arr);
+                      }
+                    }}>
+                    <FontAwesome name="arrow-down" size={25} color="blue" />
+                    </TouchableOpacity>
                   <TouchableOpacity
-                    style={{ margin: 5 }}
+                    style={{ marginLeft: 10 }}
                     onPress={() => deleteNote(item.id)}
                   >
-                    <FontAwesome name="trash-can" size={20} color="red" />
+                    <FontAwesome name="trash-can" size={25} color="red" />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={{ margin: 5 }}
+                    style={{ marginLeft: 10 }}
                     onPress={() => editNote(item.id)}
                   >
-                    <FontAwesome name="pen-to-square" size={20} color="blue" />
+                    <FontAwesome name="pen-to-square" size={25} color="blue" />
                   </TouchableOpacity>
                 </View>
               </View>
